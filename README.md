@@ -17,3 +17,9 @@ The estimate uses ₹4,500 for weekday nights and ₹5,200 for Friday and Saturd
 
 ## Hosting
 No build step is needed. Serve the folder with any static host (GitHub Pages, Netlify, Vercel, cPanel). To test locally, run `python3 -m http.server` and open http://localhost:8000.
+
+## SEO
+- Title, description and Open Graph tags target "resort in Vagamon, Kerala".
+- `Resort` and `FAQPage` structured data (JSON-LD) are in `index.html`.
+- Once the final domain is live, add `<link rel="canonical" href="https://YOUR-DOMAIN/">` to `index.html`, add `Sitemap: https://YOUR-DOMAIN/sitemap.xml` to `robots.txt`, and submit the site in Google Search Console.
+- A Google Business Profile for "Hillora Tales Vagamon" will do the most for local "resort in Kerala" searches.

@@ -115,67 +115,6 @@
     probe.src = driveSrc(id, 2000);
   })();
 
-  /* ---------- Stays ---------- */
-
-  var gallerySets = {};
-
-  function renderStays() {
-    var list = $("#stayList");
-    D.stays.forEach(function (s) {
-      gallerySets[s.id] = s.photos;
-      var el = document.createElement("article");
-      el.className = "stay reveal";
-      el.id = "stay-" + s.id;
-
-      var g = document.createElement("div");
-      g.className = "gallery";
-      g.innerHTML = '<span class="gallery__tag">' + s.type + '</span><span class="gallery__count">📷 ' + s.photos.length + ' photos</span>';
-      s.photos.slice(0, 4).forEach(function (pid, i) {
-        if (i === 3) return; // layout shows 3 tiles; the 4th opens in the lightbox
-        var b = document.createElement("button");
-        b.type = "button";
-        b.setAttribute("aria-label", "View " + s.name + " photo " + (i + 1));
-        b.appendChild(driveImg(pid, s.name + " photo " + (i + 1), i === 0 ? 1400 : 700));
-        b.addEventListener("click", function () { openLightbox(s.id, i); });
-        g.appendChild(b);
-      });
-
-      var kidsCap = s.childrenNote ? "Children: on request" : "Up to " + s.children + " children";
-      var body = document.createElement("div");
-      body.className = "stay__body";
-      body.innerHTML =
-        '<p class="stay__type">' + s.tagline + "</p>" +
-        "<h3>" + s.name + "</h3>" +
-        '<p class="stay__story">' + s.description + " " + s.story + "</p>" +
-        '<div class="stay__meta">' +
-          '<span class="pill">🛏️ ' + s.bedrooms + " bedrooms</span>" +
-          '<span class="pill">👤 Up to ' + s.adults + " adults</span>" +
-          '<span class="pill">🧒 ' + kidsCap + "</span>" +
-        "</div>" +
-        '<ul class="amen">' + s.amenities.map(function (a) { return "<li>" + a + "</li>"; }).join("") + "</ul>" +
-        '<div class="stay__foot">' +
-          '<div class="price"><small>Starting from</small><strong>' + inr(D.rates.weekday) + '</strong> <span>/ night · weekdays</span></div>' +
-          '<button class="btn btn--forest" type="button" data-book="' + s.id + '">Book this stay</button>' +
-        "</div>";
-
-      el.appendChild(g);
-      el.appendChild(body);
-      list.appendChild(el);
-    });
-
-    $$("[data-book]").forEach(function (b) {
-      b.addEventListener("click", function () {
-        state.preselect = b.getAttribute("data-book");
-        goStep(1);
-        $("#book").scrollIntoView({ behavior: "smooth" });
-        setTimeout(function () {
-          var name = $("#step1 [name=guestName]");
-          if (!name.value) name.focus({ preventScroll: true });
-        }, 600);
-      });
-    });
-  }
-
   /* ---------- Lightbox ---------- */
 
   var lb = $("#lightbox");
@@ -188,7 +127,7 @@
     var id = s.photos[lbIdx];
     lbImg.onerror = function () { lbImg.onerror = null; lbImg.src = driveFallback(id, 2000); };
     lbImg.src = driveSrc(id, 2000);
-    lbImg.alt = s.name + " photo " + (lbIdx + 1);
+    lbImg.alt = altFor(s, lbIdx);
     lbCap.textContent = s.name + " · " + (lbIdx + 1) + " / " + s.photos.length;
   }
   function openLightbox(setId, i) {
@@ -196,7 +135,7 @@
     lb.hidden = false;
     document.body.style.overflow = "hidden";
   }
-  function closeLb() { lb.hidden = true; document.body.style.overflow = ""; }
+  function closeLb() { lb.hidden = true; document.body.style.overflow = pm.hidden ? "" : "hidden"; }
   function stepLb(n) {
     var len = stayById(lbSet).photos.length;
     lbIdx = (lbIdx + n + len) % len; showLb();
@@ -210,6 +149,314 @@
     if (e.key === "Escape") closeLb();
     if (e.key === "ArrowLeft") stepLb(-1);
     if (e.key === "ArrowRight") stepLb(1);
+  });
+
+  /* ---------- Stays ---------- */
+
+  var ICON = {
+    bed: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6M3 18h18M3 18v2m18-2v2M6 10V7a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3m0 0V7a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg>',
+    user: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>',
+    kid: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="2.6"/><path d="M7.5 20a4.5 4.5 0 0 1 9 0"/></svg>',
+    pin: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
+    left: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>',
+    right: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>',
+    grid: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg>',
+  };
+
+  function splitAmenity(a) {
+    var i = a.indexOf(" ");
+    return { icon: a.slice(0, i), label: a.slice(i + 1) };
+  }
+
+  function altFor(s, i) {
+    return s.name + ", " + s.tagline.toLowerCase() + " at Hillora Tales resort, Vagamon, Kerala (photo " + (i + 1) + ")";
+  }
+
+  function kidsText(s) { return s.childrenNote ? "Children on request" : s.children + " children"; }
+
+  function renderStays() {
+    var list = $("#stayList");
+    D.stays.forEach(function (s) {
+      var card = document.createElement("article");
+      card.className = "scard reveal";
+      card.dataset.type = s.type;
+
+      var media = document.createElement("div");
+      media.className = "scard__media";
+      var track = document.createElement("div");
+      track.className = "scard__track";
+      s.photos.forEach(function (pid, i) {
+        var slide = document.createElement("button");
+        slide.type = "button";
+        slide.className = "scard__slide";
+        slide.setAttribute("aria-label", "View " + s.name + " details");
+        slide.appendChild(driveImg(pid, altFor(s, i), 900));
+        slide.addEventListener("click", function () { openProperty(s.id); });
+        track.appendChild(slide);
+      });
+      media.appendChild(track);
+
+      var dots = document.createElement("div");
+      dots.className = "scard__dots";
+      dots.innerHTML = s.photos.map(function (_, i) { return "<span" + (i === 0 ? ' class="is-on"' : "") + "></span>"; }).join("");
+      media.insertAdjacentHTML("beforeend",
+        '<span class="scard__badge">' + s.type + "</span>" +
+        '<span class="scard__perk">🍳 Breakfast included</span>' +
+        '<button class="scard__nav scard__nav--prev" type="button" aria-label="Previous photo">' + ICON.left + "</button>" +
+        '<button class="scard__nav scard__nav--next" type="button" aria-label="Next photo">' + ICON.right + "</button>");
+      media.appendChild(dots);
+
+      function slideBy(n) { track.scrollBy({ left: n * track.clientWidth, behavior: "smooth" }); }
+      $(".scard__nav--prev", media).addEventListener("click", function () { slideBy(-1); });
+      $(".scard__nav--next", media).addEventListener("click", function () { slideBy(1); });
+      track.addEventListener("scroll", function () {
+        var idx = Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
+        $$("span", dots).forEach(function (d, i) { d.classList.toggle("is-on", i === idx); });
+      }, { passive: true });
+
+      var amen = s.amenities.slice(0, 4).map(function (a) {
+        var x = splitAmenity(a);
+        return '<li title="' + x.label + '"><span aria-hidden="true">' + x.icon + "</span>" + x.label + "</li>";
+      }).join("");
+      var more = s.amenities.length - 4;
+
+      var body = document.createElement("div");
+      body.className = "scard__body";
+      body.innerHTML =
+        '<div class="scard__top">' +
+          "<div>" +
+            "<h3>" + s.name + "</h3>" +
+            '<p class="scard__loc">' + ICON.pin + "Vagamon, Kerala · " + s.tagline + "</p>" +
+          "</div>" +
+        "</div>" +
+        '<ul class="scard__facts">' +
+          "<li>" + ICON.bed + s.bedrooms + " bedrooms</li>" +
+          "<li>" + ICON.user + s.adults + " adults</li>" +
+          "<li>" + ICON.kid + kidsText(s) + "</li>" +
+        "</ul>" +
+        '<ul class="scard__amen">' + amen + (more > 0 ? '<li class="more">+' + more + " more</li>" : "") + "</ul>" +
+        '<div class="scard__foot">' +
+          '<div class="scard__price"><span>From</span> <strong>' + inr(D.rates.weekday) + "</strong> <span>/ night</span></div>" +
+          '<div class="scard__cta">' +
+            '<button class="btn btn--line btn--sm" type="button" data-view="' + s.id + '">View details</button>' +
+            '<button class="btn btn--forest btn--sm" type="button" data-book="' + s.id + '">Reserve</button>' +
+          "</div>" +
+        "</div>";
+
+      card.appendChild(media);
+      card.appendChild(body);
+      list.appendChild(card);
+    });
+
+    $$("[data-view]").forEach(function (b) {
+      b.addEventListener("click", function () { openProperty(b.getAttribute("data-view")); });
+    });
+    $$("[data-book]").forEach(function (b) {
+      b.addEventListener("click", function () { reserve(b.getAttribute("data-book")); });
+    });
+
+    // Filters
+    $$("#stayFilters .filter").forEach(function (f) {
+      f.addEventListener("click", function () {
+        var v = f.getAttribute("data-filter");
+        $$("#stayFilters .filter").forEach(function (x) {
+          var on = x === f;
+          x.classList.toggle("is-active", on);
+          x.setAttribute("aria-selected", String(on));
+        });
+        $$(".scard").forEach(function (c) { c.hidden = v !== "all" && c.dataset.type !== v; });
+      });
+    });
+  }
+
+  // Jump to the booking flow with this stay preselected.
+  function reserve(id, trip) {
+    state.preselect = id;
+    if (trip) {
+      step1.checkIn.value = trip.checkIn || step1.checkIn.value;
+      step1.checkOut.value = trip.checkOut || step1.checkOut.value;
+      step1.adults.value = trip.adults;
+      step1.kids612.value = trip.kids612;
+      step1.kidsU6.value = trip.kidsU6;
+      if (trip.checkIn) step1.checkOut.min = toInput(addDays(parseDate(trip.checkIn), 1));
+      updateNights();
+      toggleKidsAges();
+    }
+    closeProperty();
+    goStep(1);
+    $("#book").scrollIntoView({ behavior: "smooth" });
+    // Skip straight to stay options only when the trip details are already complete.
+    var ready = step1.guestName.value && step1.checkIn.value && step1.checkOut.value;
+    if (ready) step1.requestSubmit();
+    else setTimeout(function () { step1.guestName.focus({ preventScroll: true }); }, 600);
+  }
+
+  /* ---------- Property detail ---------- */
+
+  var pm = $("#pmodal");
+  var pmBody = $("#pmBody");
+  var pmCurrent = null;
+
+  function stepper(name, label, sub, value, min) {
+    return '<div class="stepper"><div><b>' + label + "</b><small>" + sub + "</small></div>" +
+      '<div class="stepper__ctl"><button type="button" data-dec="' + name + '" aria-label="Fewer ' + label + '">−</button>' +
+      '<input name="' + name + '" type="number" min="' + min + '" value="' + value + '" inputmode="numeric" aria-label="' + label + '">' +
+      '<button type="button" data-inc="' + name + '" aria-label="More ' + label + '">+</button></div></div>';
+  }
+
+  function openProperty(id) {
+    var s = stayById(id);
+    if (!s) return;
+    pmCurrent = id;
+    $("#pmBarTitle").textContent = s.name;
+    $("#pmWa").href = "https://wa.me/" + D.whatsapp + "?text=" +
+      encodeURIComponent("Hi Hillora Tales Vagamon! 🌲 I'm interested in " + s.name + ". Could you share availability and rates?");
+
+    var tiles = s.photos.map(function (_, i) {
+      return '<button type="button" class="pm-tile pm-tile--' + (i + 1) + '" data-photo="' + i + '" aria-label="Open photo ' + (i + 1) + '"></button>';
+    }).join("");
+
+    var amen = s.amenities.map(function (a) {
+      var x = splitAmenity(a);
+      return '<li><span aria-hidden="true">' + x.icon + "</span>" + x.label + "</li>";
+    }).join("");
+
+    var trip = {
+      checkIn: step1.checkIn.value, checkOut: step1.checkOut.value,
+      adults: +step1.adults.value || 2, kids612: +step1.kids612.value || 0, kidsU6: +step1.kidsU6.value || 0,
+    };
+
+    pmBody.innerHTML =
+      '<div class="pm-gwrap"><div class="pm-gallery pm-gallery--' + Math.min(4, s.photos.length) + '">' + tiles +
+        '<button type="button" class="pm-all" data-photo="0">' + ICON.grid + "Show all " + s.photos.length + " photos</button>" +
+      "</div>" +
+      '<span class="pm-count" id="pmCount">1 / ' + s.photos.length + "</span></div>" +
+      '<div class="pm-layout">' +
+        '<div class="pm-main">' +
+          '<p class="pm-kicker">' + s.type + " · Vagamon, Kerala</p>" +
+          '<h2 id="pmTitle">' + s.name + "</h2>" +
+          '<ul class="pm-facts">' +
+            "<li>" + ICON.bed + "<b>" + s.bedrooms + "</b> bedrooms</li>" +
+            "<li>" + ICON.user + "Up to <b>" + s.adults + "</b> adults</li>" +
+            "<li>" + ICON.kid + (s.childrenNote ? "Children on request" : "Up to <b>" + s.children + "</b> children") + "</li>" +
+          "</ul>" +
+          '<ul class="pm-high">' +
+            '<li><span>🏡</span><div><b>The whole place is yours</b><p>A private ' + s.type.toLowerCase() + ", not shared with other guests.</p></div></li>" +
+            '<li><span>🍳</span><div><b>Breakfast included</b><p>Fresh breakfast every morning. Dinner is available at extra cost.</p></div></li>' +
+            '<li><span>🏊</span><div><b>Pool access 8 AM – 9 PM</b><p>Swim with views of the mountains.</p></div></li>' +
+          "</ul>" +
+          '<section class="pm-sec"><h3>About this stay</h3><p>' + s.description + " " + s.story + "</p></section>" +
+          '<section class="pm-sec"><h3>What this place offers</h3><ul class="pm-amen">' + amen + "</ul></section>" +
+          '<section class="pm-sec"><h3>Good to know</h3><ul class="pm-know">' +
+            "<li><b>Check-in</b><span>From " + D.checkIn + "</span></li>" +
+            "<li><b>Check-out</b><span>Confirmed with your booking</span></li>" +
+            "<li><b>ID proof</b><span>Valid ID for the team leader at check-in</span></li>" +
+            "<li><b>Cancellation</b><span>Full refund 15+ days before · 50% retained 7–14 days · No refund under 7 days</span></li>" +
+          "</ul></section>" +
+        "</div>" +
+        '<aside class="pm-widget"><form class="pm-card" id="pmForm" novalidate>' +
+          '<div class="pm-card__price"><strong>' + inr(D.rates.weekday) + '</strong> <span>/ night</span><small>' + inr(D.rates.weekend) + " on weekends &amp; holidays</small></div>" +
+          '<div class="pm-dates">' +
+            '<label>Check-in<input type="date" name="checkIn" value="' + trip.checkIn + '" min="' + toInput(today) + '"></label>' +
+            '<label>Check-out<input type="date" name="checkOut" value="' + trip.checkOut + '" min="' + toInput(addDays(today, 1)) + '"></label>' +
+          "</div>" +
+          '<div class="pm-guests">' +
+            stepper("adults", "Adults", "Above 12 years", trip.adults, 1) +
+            stepper("kids612", "Children", "6–12 years", trip.kids612, 0) +
+            stepper("kidsU6", "Little ones", "Below 6 years", trip.kidsU6, 0) +
+          "</div>" +
+          '<div class="pm-quote" id="pmQuote"></div>' +
+          '<button class="btn btn--forest btn--block" type="submit">Reserve this stay</button>' +
+          '<p class="pm-card__note">No payment now. Our team confirms availability and the final rate on WhatsApp.</p>' +
+        "</form></aside>" +
+      "</div>" +
+      '<div class="pm-mbar"><div><strong>' + inr(D.rates.weekday) + '</strong> / night<small>Breakfast included</small></div>' +
+        '<button class="btn btn--forest btn--sm" type="button" id="pmJump">Check dates</button></div>';
+
+    // Gallery tiles
+    $$(".pm-tile", pmBody).forEach(function (t, i) {
+      t.appendChild(driveImg(s.photos[i], altFor(s, i), i === 0 ? 1600 : 900));
+    });
+    var gal = $(".pm-gallery", pmBody);
+    gal.addEventListener("scroll", function () {
+      var idx = Math.round(gal.scrollLeft / Math.max(1, gal.clientWidth));
+      $("#pmCount").textContent = (idx + 1) + " / " + s.photos.length;
+    }, { passive: true });
+    $$("[data-photo]", pmBody).forEach(function (b) {
+      b.addEventListener("click", function () { openLightbox(s.id, +b.getAttribute("data-photo")); });
+    });
+
+    $("#pmJump").addEventListener("click", function () {
+      $(".pm-card", pmBody).scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    var form = $("#pmForm");
+    function quote() {
+      var ci = parseDate(form.checkIn.value), co = parseDate(form.checkOut.value);
+      var a = +form.adults.value || 0, k = (+form.kids612.value || 0) + (+form.kidsU6.value || 0);
+      var html = "";
+      if (ci && co && co > ci) {
+        var sp = nightSplit(ci, co);
+        if (sp.weekday) html += "<div><span>" + inr(D.rates.weekday) + " × " + sp.weekday + " weekday night" + (sp.weekday > 1 ? "s" : "") + "</span><span>" + inr(sp.weekday * D.rates.weekday) + "</span></div>";
+        if (sp.weekend) html += "<div><span>" + inr(D.rates.weekend) + " × " + sp.weekend + " weekend night" + (sp.weekend > 1 ? "s" : "") + "</span><span>" + inr(sp.weekend * D.rates.weekend) + "</span></div>";
+        html += '<div class="pm-quote__total"><span>Indicative total</span><span>' + inr(unitEstimate(sp)) + "</span></div>";
+      } else {
+        html += '<p class="pm-quote__hint">Add your dates to see an estimate.</p>';
+      }
+      if (a > s.adults || k > s.children) {
+        html += '<p class="pm-quote__warn">This is more than the standard capacity (' + s.adults + " adults). Extra-guest charges may apply, or you can add another stay.</p>";
+      }
+      $("#pmQuote").innerHTML = html;
+    }
+    form.checkIn.addEventListener("change", function () {
+      var d = parseDate(form.checkIn.value);
+      if (!d) return quote();
+      form.checkOut.min = toInput(addDays(d, 1));
+      var out = parseDate(form.checkOut.value);
+      if (!out || out <= d) form.checkOut.value = toInput(addDays(d, 1));
+      quote();
+    });
+    form.addEventListener("input", quote);
+    $$("[data-inc],[data-dec]", form).forEach(function (b) {
+      b.addEventListener("click", function () {
+        var n = b.getAttribute("data-inc") || b.getAttribute("data-dec");
+        var inp = form[n];
+        var v = (+inp.value || 0) + (b.hasAttribute("data-inc") ? 1 : -1);
+        inp.value = Math.max(+inp.min, v);
+        quote();
+      });
+    });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      reserve(s.id, {
+        checkIn: form.checkIn.value, checkOut: form.checkOut.value,
+        adults: Math.max(1, +form.adults.value || 1),
+        kids612: Math.max(0, +form.kids612.value || 0),
+        kidsU6: Math.max(0, +form.kidsU6.value || 0),
+      });
+    });
+    quote();
+
+    pm.hidden = false;
+    pm.scrollTop = 0;
+    $(".pmodal__sheet", pm).scrollTop = 0;
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(function () { pm.classList.add("is-open"); });
+    if (location.hash !== "#stay-" + id) history.replaceState(null, "", "#stay-" + id);
+  }
+
+  function closeProperty() {
+    if (pm.hidden) return;
+    pm.classList.remove("is-open");
+    pm.hidden = true;
+    pmCurrent = null;
+    document.body.style.overflow = "";
+    if (/^#stay-/.test(location.hash)) history.replaceState(null, "", location.pathname + location.search);
+  }
+  $$("[data-pm-close]", pm).forEach(function (b) { b.addEventListener("click", closeProperty); });
+  pm.addEventListener("click", function (e) { if (e.target === pm) closeProperty(); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && lb.hidden && !pm.hidden) closeProperty();
   });
 
   /* ---------- Booking steps ---------- */
@@ -555,6 +802,24 @@
 
   $("#year").textContent = new Date().getFullYear();
   renderStays();
+  var deep = /^#stay-(.+)$/.exec(location.hash);
+  if (deep && stayById(deep[1])) openProperty(deep[1]);
+
+  // App tab bar (mobile): highlight the section in view.
+  var tabs = $$("#tabbar [data-tab]");
+  if ("IntersectionObserver" in window && tabs.length) {
+    var tabIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var id = en.target.classList.contains("hero") ? "top" : en.target.id;
+        tabs.forEach(function (t) { t.classList.toggle("is-active", t.getAttribute("data-tab") === id); });
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    ["hero", "stays", "book", "faq"].forEach(function (id) {
+      var el = id === "hero" ? $(".hero") : document.getElementById(id);
+      if (el) tabIo.observe(el);
+    });
+  }
 
   if ("IntersectionObserver" in window) {
     var io = new IntersectionObserver(function (entries) {

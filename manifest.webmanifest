@@ -1,0 +1,14 @@
+{
+  "name": "Hillora Tales Vagamon",
+  "short_name": "Hillora Tales",
+  "description": "Resort in Vagamon, Kerala. Pool villas, an A-frame cottage and valley views. Book your stay.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f8f5ee",
+  "theme_color": "#1f3b24",
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
