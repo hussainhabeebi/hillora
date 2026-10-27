@@ -392,6 +392,7 @@
 
     var form = $("#pmForm");
     function quote() {
+      prepDates(form);
       var ci = parseDate(form.checkIn.value), co = parseDate(form.checkOut.value);
       var a = +form.adults.value || 0, k = (+form.kids612.value || 0) + (+form.kidsU6.value || 0);
       var html = "";
@@ -502,6 +503,7 @@
   linkDates($("#quickForm"));
 
   function updateNights() {
+    prepDates(document);
     var ci = parseDate(step1.checkIn.value), co = parseDate(step1.checkOut.value);
     var badge = $("#nightsBadge");
     if (ci && co && co > ci) {
@@ -799,6 +801,19 @@
   });
 
   /* ---------- Misc ---------- */
+
+  // iOS shows empty date inputs as blank boxes; give them a visible placeholder.
+  function markDate(i) { i.classList.toggle("has-value", !!i.value); }
+  document.addEventListener("input", function (e) { if (e.target.type === "date") markDate(e.target); });
+  document.addEventListener("change", function (e) { if (e.target.type === "date") markDate(e.target); });
+  function prepDates(root) {
+    $$('input[type="date"]', root).forEach(function (i) {
+      if (!i.dataset.placeholder) i.dataset.placeholder = "Add date";
+      markDate(i);
+    });
+  }
+  prepDates(document);
+  new MutationObserver(function () { prepDates(document); }).observe(document.body, { childList: true, subtree: true });
 
   $("#year").textContent = new Date().getFullYear();
   renderStays();

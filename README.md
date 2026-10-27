@@ -21,5 +21,5 @@ No build step is needed. Serve the folder with any static host (GitHub Pages, Ne
 ## SEO
 - Title, description and Open Graph tags target "resort in Vagamon, Kerala".
 - `Resort` and `FAQPage` structured data (JSON-LD) are in `index.html`.
-- Once the final domain is live, add `<link rel="canonical" href="https://YOUR-DOMAIN/">` to `index.html`, add `Sitemap: https://YOUR-DOMAIN/sitemap.xml` to `robots.txt`, and submit the site in Google Search Console.
+- Canonical URL, `sitemap.xml` and `robots.txt` point to https://hilloratales.com/. Submit the sitemap in Google Search Console.
 - A Google Business Profile for "Hillora Tales Vagamon" will do the most for local "resort in Kerala" searches.

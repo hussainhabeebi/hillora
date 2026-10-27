@@ -507,3 +507,18 @@ h1 .eyebrow { display: block; font-family: var(--sans); font-size: .74rem; line-
 @media (max-width: 560px) {
   .hero h1 { font-size: 2.3rem; }
 }
+
+/* iOS Safari: date inputs have a wide intrinsic size and no placeholder; tame them */
+.quick label, .field, .pm-dates label { min-width: 0; }
+input[type="date"] { -webkit-appearance: none; appearance: none; display: block; width: 100%; min-width: 0; max-width: 100%; min-height: 2.9rem; line-height: 1.4; }
+.pm-dates input[type="date"] { min-height: 1.8rem; }
+input[type="date"]::-webkit-date-and-time-value { text-align: left; margin: 0; }
+input[type="date"]::-webkit-calendar-picker-indicator { opacity: .6; }
+@supports (-webkit-touch-callout: none) {
+  input[type="date"]:not(.has-value) { color: transparent; }
+  input[type="date"]:not(.has-value)::before { content: attr(data-placeholder); color: var(--muted); }
+}
+@media (max-width: 860px) {
+  /* 16px stops iOS from zooming in when a field is focused */
+  input, textarea, select { font-size: 16px !important; }
+}
