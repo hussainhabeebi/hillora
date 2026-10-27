@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hillora Tales Vagamon — Stories from the Hills</title>
+  <meta name="description" content="Hillora Tales Vagamon — private villas, an A-frame cottage and a pool-deck apartment in the misty hills of Vagamon, Kerala. Pool, breakfast, campfire and jeep trekking. Book your stay.">
+  <meta name="theme-color" content="#1f3b24">
+  <meta property="og:title" content="Hillora Tales Vagamon">
+  <meta property="og:description" content="Stories from the Hills — villas, cottages and valley views in Vagamon, Kerala.">
+  <meta property="og:image" content="assets/logo.png">
+  <link rel="icon" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav" id="top">
+  <div class="nav__inner">
+    <a href="#top" class="brand" aria-label="Hillora Tales home">
+      <img src="assets/logo.png" alt="" width="40" height="40">
+      <span>Hillora Tales<small>Vagamon</small></span>
+    </a>
+    <nav class="nav__links" id="navLinks">
+      <a href="#stays">Stays</a>
+      <a href="#experiences">Experiences</a>
+      <a href="#policies">Good to know</a>
+      <a href="#contact">Contact</a>
+      <a href="#book" class="btn btn--gold btn--sm">Book your stay</a>
+    </nav>
+    <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__bg" id="heroBg"></div>
+    <div class="hero__shade"></div>
+    <div class="hero__content">
+      <p class="eyebrow">Vagamon · Kerala</p>
+      <h1>Every hill<br>has a story.<br><em>Come write yours.</em></h1>
+      <p class="hero__lead">Wake up to drifting mist, pine-scented air and valley views that go on forever. Private villas, an A-frame cottage and a pool-deck retreat — made for slow mornings and campfire nights.</p>
+      <div class="hero__cta">
+        <a href="#book" class="btn btn--gold">Plan your escape</a>
+        <a href="#stays" class="btn btn--ghost">Explore stays</a>
+      </div>
+    </div>
+
+    <form class="quick" id="quickForm" aria-label="Quick availability request">
+      <label>Check-in<input type="date" name="checkIn" required></label>
+      <label>Check-out<input type="date" name="checkOut" required></label>
+      <label>Adults<input type="number" name="adults" min="1" value="2" required></label>
+      <label>Children<input type="number" name="kids" min="0" value="0"></label>
+      <button class="btn btn--forest" type="submit">Check stays</button>
+    </form>
+  </section>
+
+  <!-- INTRO -->
+  <section class="intro">
+    <div class="wrap intro__grid">
+      <div>
+        <p class="eyebrow eyebrow--dark">Stories from the Hills</p>
+        <h2>A hideaway for the ones who travel to <em>feel</em>, not just to see.</h2>
+      </div>
+      <div class="intro__text">
+        <p>Hillora Tales sits high in Vagamon, where tea-green meadows roll into pine forests and the sky changes colour every hour. Swim with the mountains on the horizon, trek to hidden viewpoints by jeep, and end the day around a crackling fire under a sky full of stars.</p>
+        <ul class="stats">
+          <li><strong>4</strong><span>Private stays</span></li>
+          <li><strong>2 PM</strong><span>Check-in</span></li>
+          <li><strong>Breakfast</strong><span>On the house</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAYS -->
+  <section class="stays" id="stays">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow eyebrow--dark">Where you'll stay</p>
+        <h2>Four stays. Four kinds of quiet.</h2>
+        <p>Every stay is entirely yours — pick the one that fits your story.</p>
+      </div>
+      <div class="stay-list" id="stayList"></div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCES -->
+  <section class="experiences" id="experiences">
+    <div class="wrap">
+      <div class="section-head section-head--light">
+        <p class="eyebrow">Your days here</p>
+        <h2>Slow mornings. Wild afternoons. Fireside nights.</h2>
+      </div>
+      <div class="exp-grid">
+        <article class="exp"><span class="exp__icon">🏊</span><h3>Swimming pool</h3><p>A pool with mountain views, open 8:00 AM – 9:00 PM.</p></article>
+        <article class="exp"><span class="exp__icon">🍳</span><h3>Complimentary breakfast</h3><p>Start every morning with a fresh breakfast — it's on us.</p></article>
+        <article class="exp"><span class="exp__icon">🔥</span><h3>BBQ &amp; campfire</h3><p>Stories, music and the crackle of a fire under the stars.</p></article>
+        <article class="exp"><span class="exp__icon">🚙</span><h3>Jeep trekking</h3><p>Off-road trails to Vagamon's meadows, pine forests and viewpoints.</p></article>
+        <article class="exp"><span class="exp__icon">🍽️</span><h3>Restaurant</h3><p>Home-style Kerala flavours and comfort food. Dinner is extra unless your package includes it.</p></article>
+        <article class="exp"><span class="exp__icon">🛝</span><h3>Kids play area</h3><p>Room for the little ones to run around while you unwind.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING -->
+  <section class="booking" id="book">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow eyebrow--dark">Book your stay</p>
+        <h2>Three steps, then we take it from there.</h2>
+        <p>Tell us your plans, pick a stay and check the details. Then send your request to our team on WhatsApp. They'll confirm availability, the final rate and payment.</p>
+      </div>
+
+      <ol class="steps" id="steps">
+        <li class="is-active" data-step="1"><span>1</span>Your trip</li>
+        <li data-step="2"><span>2</span>Choose a stay</li>
+        <li data-step="3"><span>3</span>Review &amp; confirm</li>
+      </ol>
+
+      <div class="panel">
+        <!-- STEP 1 -->
+        <form class="step" id="step1" data-step="1" novalidate>
+          <div class="grid grid--2">
+            <label class="field">Full name<input name="guestName" type="text" autocomplete="name" placeholder="Your name" required></label>
+            <label class="field">Phone / WhatsApp<input name="phone" type="tel" autocomplete="tel" placeholder="+91 …"></label>
+            <label class="field">Check-in date<input name="checkIn" type="date" required></label>
+            <label class="field">Check-out date<input name="checkOut" type="date" required></label>
+          </div>
+          <div class="grid grid--4">
+            <label class="field">Rooms / units<input name="rooms" type="number" min="1" max="4" value="1" required></label>
+            <label class="field">Adults <small>(above 12)</small><input name="adults" type="number" min="1" value="2" required></label>
+            <label class="field">Children <small>(6–12)</small><input name="kids612" type="number" min="0" value="0"></label>
+            <label class="field">Children <small>(below 6)</small><input name="kidsU6" type="number" min="0" value="0"></label>
+          </div>
+          <div class="grid grid--2">
+            <fieldset class="field">
+              <legend>Requirement</legend>
+              <div class="chips">
+                <label class="chip"><input type="radio" name="requirement" value="Resort" checked><span>Resort</span></label>
+                <label class="chip"><input type="radio" name="requirement" value="Homestay"><span>Homestay</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="field">
+              <legend>Pool preference</legend>
+              <div class="chips">
+                <label class="chip"><input type="radio" name="pool" value="With Pool" checked><span>With pool</span></label>
+                <label class="chip"><input type="radio" name="pool" value="Without Pool"><span>Without pool</span></label>
+                <label class="chip"><input type="radio" name="pool" value="No preference"><span>Either</span></label>
+              </div>
+            </fieldset>
+          </div>
+          <label class="field" id="kidsAgesWrap" hidden>Children's ages <small>(helps us apply the right child policy)</small><input name="kidsAges" type="text" placeholder="e.g. 4, 9"></label>
+          <p class="form-error" id="step1Error" role="alert"></p>
+          <div class="actions">
+            <span class="nights" id="nightsBadge"></span>
+            <button class="btn btn--forest" type="submit">See stay options →</button>
+          </div>
+        </form>
+
+        <!-- STEP 2 -->
+        <div class="step" id="step2" data-step="2" hidden>
+          <p class="step__hint" id="step2Hint"></p>
+          <div class="options" id="optionList"></div>
+          <p class="form-error" id="step2Error" role="alert"></p>
+          <div class="actions">
+            <button class="btn btn--line" type="button" data-back="1">← Back</button>
+            <button class="btn btn--forest" type="button" id="toStep3">Review booking →</button>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <form class="step" id="step3" data-step="3" hidden novalidate>
+          <div class="review">
+            <div class="review__card" id="reviewCard"></div>
+            <div class="review__side">
+              <label class="field">Email <small>(optional, for your voucher)</small><input name="email" type="email" autocomplete="email" placeholder="you@example.com"></label>
+              <label class="field">Special requests <small>(optional)</small><textarea name="notes" rows="3" placeholder="Celebrations, dietary needs, arrival time…"></textarea></label>
+              <details class="terms">
+                <summary>Cancellation &amp; stay policy</summary>
+                <ul>
+                  <li><b>15+ days</b> before check-in: full refund.</li>
+                  <li><b>7–14 days</b> before check-in: 50% of the booking amount is retained.</li>
+                  <li><b>Less than 7 days</b> before check-in: no refund.</li>
+                  <li>Valid ID proof for the team leader is required at check-in.</li>
+                  <li>Guest count must not exceed the number in your booking confirmation.</li>
+                  <li>Guests are responsible for any damage to the property during their stay.</li>
+                </ul>
+              </details>
+              <label class="check"><input type="checkbox" name="agree" required> I've checked my details and accept the cancellation &amp; stay policy.</label>
+            </div>
+          </div>
+          <p class="form-error" id="step3Error" role="alert"></p>
+          <div class="actions">
+            <button class="btn btn--line" type="button" data-back="2">← Back</button>
+            <button class="btn btn--wa" type="submit"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Confirm &amp; continue on WhatsApp</button>
+          </div>
+        </form>
+
+        <!-- DONE -->
+        <div class="step step--done" id="stepDone" hidden>
+          <div class="done__icon">🌲</div>
+          <h3>Your booking request is ready!</h3>
+          <p>WhatsApp should now be open with all your details filled in. Just tap <b>Send</b>. Our team will confirm availability and the final amount, and share secure payment details. You'll get your booking voucher once payment is verified.</p>
+          <div class="actions actions--center">
+            <a class="btn btn--wa" id="waAgain" href="#" target="_blank" rel="noopener">Open WhatsApp again</a>
+            <button class="btn btn--line" type="button" id="startOver">Start a new booking</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POLICIES -->
+  <section class="policies" id="policies">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow eyebrow--dark">Good to know</p>
+        <h2>Before you pack your bags</h2>
+      </div>
+      <div class="policy-grid">
+        <article class="policy">
+          <h3>⏰ Timings</h3>
+          <ul>
+            <li>Check-in from <b>2:00 PM</b></li>
+            <li>Check-out time is confirmed with your booking</li>
+            <li>Early check-in / late check-out on request, subject to availability</li>
+            <li>Pool open <b>8:00 AM – 9:00 PM</b> (staff may extend it on request)</li>
+          </ul>
+        </article>
+        <article class="policy">
+          <h3>💳 Rates &amp; payment</h3>
+          <ul>
+            <li>Rates start from <b>₹4,500</b> on weekdays and <b>₹5,200</b> on weekends &amp; holidays</li>
+            <li>Breakfast &amp; pool access included; dinner is extra unless your package includes it</li>
+            <li>Confirm your booking with an advance, and pay the balance at check-in</li>
+            <li>Our team confirms the final rate on WhatsApp before you pay</li>
+          </ul>
+        </article>
+        <article class="policy">
+          <h3>🏊 Pool &amp; play area</h3>
+          <ul>
+            <li>An adult must be with children at all times</li>
+            <li>Shower first and wear proper swimwear</li>
+            <li>No diving or jumping into the pool</li>
+            <li>No rough play in the kids area; follow staff instructions</li>
+          </ul>
+        </article>
+        <article class="policy">
+          <h3>❌ Cancellation</h3>
+          <ul>
+            <li><b>15+ days</b> before check-in: full refund</li>
+            <li><b>7–14 days</b>: 50% of booking amount retained</li>
+            <li><b>Under 7 days</b>: no refund</li>
+            <li>Tell us early about any changes. Amendments need team approval</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="wrap contact__inner">
+      <div>
+        <p class="eyebrow">Say hello</p>
+        <h2>The hills are calling.<br><em>We'll answer on WhatsApp.</em></h2>
+        <p>Questions about stays, group trips or celebrations? Message us. We usually reply quickly.</p>
+      </div>
+      <div class="contact__card">
+        <a class="btn btn--wa btn--block" href="https://wa.me/919846796773?text=Hi%20Hillora%20Tales%20Vagamon!%20%F0%9F%8C%B2%20I%27d%20like%20to%20know%20more%20about%20your%20stays." target="_blank" rel="noopener">Chat on WhatsApp</a>
+        <a class="contact__line" href="tel:+919846796773">📞 +91 98467 96773</a>
+        <p class="contact__line">📍 Vagamon, Idukki, Kerala</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <div class="brand brand--footer"><img src="assets/logo.png" alt="" width="36" height="36"><span>Hillora Tales<small>Stories from the Hills</small></span></div>
+    <p>© <span id="year"></span> Hillora Tales Vagamon. All bookings are confirmed by our team on WhatsApp.</p>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/919846796773" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
+</a>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lightbox__close" aria-label="Close">×</button>
+  <button class="lightbox__nav lightbox__prev" aria-label="Previous">‹</button>
+  <img alt="">
+  <button class="lightbox__nav lightbox__next" aria-label="Next">›</button>
+  <p class="lightbox__cap"></p>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
