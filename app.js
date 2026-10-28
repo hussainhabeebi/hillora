@@ -893,13 +893,26 @@
       tile.innerHTML = (p.video
         // Muted inline loop; the file only downloads once the tile scrolls into view.
         ? '<video muted loop playsinline preload="none" poster="' + p.src + '" aria-hidden="true"><source src="' + p.video + '" type="video/mp4"></video>' +
-          '<span class="g-tile__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>'
-        : '<img src="' + p.src + '" alt="' + escapeHtml(items[i].alt) + '" loading="lazy" decoding="async">') +
-        '<span class="g-tile__cap">' + escapeHtml(p.caption) + "</span>";
+          '<span class="g-tile__tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Drone film</span>' +
+          '<span class="g-tile__bar" aria-hidden="true"></span>'
+        : '<img src="' + p.src + '" alt="' + escapeHtml(items[i].alt) + '" loading="lazy" decoding="async">' +
+          '<span class="g-tile__tag">Aerial photo</span>') +
+        '<span class="g-tile__cap"><b>' + escapeHtml(p.caption) + '</b><span class="g-tile__go" aria-hidden="true">' +
+          (p.video ? "Watch" : "View") + " ↗</span></span>";
       tile.addEventListener("click", function () { openLightbox(items, i); });
       grid.appendChild(tile);
-      if (p.video) vids.push($("video", tile));
+      if (p.video) {
+        var v = $("video", tile), bar = $(".g-tile__bar", tile);
+        v.addEventListener("timeupdate", function () {
+          if (v.duration) bar.style.transform = "scaleX(" + (v.currentTime / v.duration) + ")";
+        });
+        vids.push(v);
+      }
     });
+    var nVid = vids.length, nPic = D.scenery.length - nVid;
+    $("#sceneMeta").innerHTML =
+      (nVid ? "<li><b>" + nVid + "</b> drone film" + (nVid > 1 ? "s" : "") + "</li>" : "") +
+      (nPic ? "<li><b>" + nPic + "</b> aerial photo" + (nPic > 1 ? "s" : "") + "</li>" : "");
     if (reduced || !("IntersectionObserver" in window)) return;
     var vio = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {

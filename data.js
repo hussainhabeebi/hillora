@@ -23,8 +23,8 @@ window.HILLORA = {
     { video: "assets/vagamon/video/vagamon-meadows-drone.mp4", src: "assets/vagamon/video/vagamon-meadows-drone.jpg", shape: "tall", caption: "Flying over the Vagamon meadows" },
     { video: "assets/vagamon/video/hillora-aerial-drone.mp4", src: "assets/vagamon/video/hillora-aerial-drone.jpg", shape: "tall", caption: "Hillora Tales on the hillside" },
     { video: "assets/vagamon/video/hillora-pool-drone.mp4", src: "assets/vagamon/video/hillora-pool-drone.jpg", shape: "tall", caption: "The pool and play area" },
-    { src: "assets/vagamon/hillora-aerial-overview.jpg", caption: "The resort from above" },
-    { src: "assets/vagamon/hillora-pool-topdown.jpg", caption: "Pool, lawn and play area" },
+    { src: "assets/vagamon/hillora-aerial-overview.jpg", shape: "wide", caption: "The resort from above" },
+    { src: "assets/vagamon/hillora-pool-topdown.jpg", shape: "wide", caption: "Pool, lawn and play area" },
   ],
 
   stays: [
