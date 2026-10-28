@@ -142,15 +142,27 @@
 
   var lb = $("#lightbox");
   var lbImg = $("img", lb);
+  var lbVid = $("video", lb);
   var lbCap = $(".lightbox__cap", lb);
   var lbItems = [], lbIdx = 0;
 
-  // items: [{ src, fallback?, alt, cap }]
+  // items: [{ src, fallback?, alt, cap, video? }]
   function showLb() {
     var it = lbItems[lbIdx];
-    lbImg.onerror = it.fallback ? function () { lbImg.onerror = null; lbImg.src = it.fallback; } : null;
-    lbImg.src = it.src;
-    lbImg.alt = it.alt;
+    lbVid.pause();
+    lbImg.hidden = !!it.video;
+    lbVid.hidden = !it.video;
+    if (it.video) {
+      lbVid.poster = it.src;
+      lbVid.src = it.video;
+      lbVid.setAttribute("aria-label", it.alt);
+      lbVid.play().catch(function () {});
+    } else {
+      lbVid.removeAttribute("src");
+      lbImg.onerror = it.fallback ? function () { lbImg.onerror = null; lbImg.src = it.fallback; } : null;
+      lbImg.src = it.src;
+      lbImg.alt = it.alt;
+    }
     lbCap.textContent = it.cap + " · " + (lbIdx + 1) + " / " + lbItems.length;
   }
   function openLightbox(items, i) {
@@ -163,7 +175,7 @@
       return { src: driveSrc(id, 2000), fallback: driveFallback(id, 2000), alt: altFor(s, i), cap: s.name };
     });
   }
-  function closeLb() { lb.hidden = true; document.body.style.overflow = pm.hidden ? "" : "hidden"; }
+  function closeLb() { lbVid.pause(); lb.hidden = true; document.body.style.overflow = pm.hidden ? "" : "hidden"; }
   function stepLb(n) {
     var len = lbItems.length;
     lbIdx = (lbIdx + n + len) % len; showLb();
@@ -869,18 +881,33 @@
     var grid = $("#sceneGrid");
     if (!grid || !D.scenery) return;
     var items = D.scenery.map(function (p) {
-      return { src: p.src, alt: p.caption + ", Vagamon, Kerala", cap: p.caption };
+      return { src: p.src, video: p.video, alt: p.caption + ", Vagamon, Kerala", cap: p.caption };
     });
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var vids = [];
     D.scenery.forEach(function (p, i) {
       var tile = document.createElement("button");
       tile.type = "button";
-      tile.className = "g-tile reveal" + (p.shape ? " g-tile--" + p.shape : "");
-      tile.setAttribute("aria-label", "View photo: " + p.caption);
-      tile.innerHTML = '<img src="' + p.src + '" alt="' + escapeHtml(items[i].alt) + '" loading="lazy" decoding="async">' +
+      tile.className = "g-tile reveal" + (p.shape ? " g-tile--" + p.shape : "") + (p.video ? " g-tile--video" : "");
+      tile.setAttribute("aria-label", (p.video ? "Play video: " : "View photo: ") + p.caption);
+      tile.innerHTML = (p.video
+        // Muted inline loop; the file only downloads once the tile scrolls into view.
+        ? '<video muted loop playsinline preload="none" poster="' + p.src + '" aria-hidden="true"><source src="' + p.video + '" type="video/mp4"></video>' +
+          '<span class="g-tile__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>'
+        : '<img src="' + p.src + '" alt="' + escapeHtml(items[i].alt) + '" loading="lazy" decoding="async">') +
         '<span class="g-tile__cap">' + escapeHtml(p.caption) + "</span>";
       tile.addEventListener("click", function () { openLightbox(items, i); });
       grid.appendChild(tile);
+      if (p.video) vids.push($("video", tile));
     });
+    if (reduced || !("IntersectionObserver" in window)) return;
+    var vio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting && lb.hidden) en.target.play().catch(function () {});
+        else en.target.pause();
+      });
+    }, { threshold: 0.35 });
+    vids.forEach(function (v) { vio.observe(v); });
   }
 
   $("#year").textContent = new Date().getFullYear();
