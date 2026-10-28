@@ -17,7 +17,7 @@ Hero slideshow → About Vagamon → Accommodation (stay cards) → Why Hillora 
 - **Stay photos** load from Google Drive by file ID. Each file must be shared as **"Anyone with the link can view"**, or it shows a green placeholder.
 
 ## Placeholders to replace
-Search `index.html` for `Placeholder` (shown on the page with a yellow dashed badge):
+Search `index.html` for `Placeholder`. These are **hidden** on the live page (`hidden` attribute) until real details are added. Remove `hidden` once you have filled them in:
 - Guest reviews and the Google rating (Testimonials section)
 - Distance from Vagamon town / Kottayam (Why Hillora Tales → Great location)
 - Email, full address and Google Maps link (final Enquiry section)
