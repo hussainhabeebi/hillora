@@ -228,51 +228,72 @@
       dots.className = "scard__dots";
       dots.innerHTML = s.photos.map(function (_, i) { return "<span" + (i === 0 ? ' class="is-on"' : "") + "></span>"; }).join("");
       media.insertAdjacentHTML("beforeend",
-        '<span class="scard__badge">' + s.type + "</span>" +
-        '<span class="scard__perk">🍳 Breakfast included</span>' +
         '<button class="scard__nav scard__nav--prev" type="button" aria-label="Previous photo">' + ICON.left + "</button>" +
         '<button class="scard__nav scard__nav--next" type="button" aria-label="Next photo">' + ICON.right + "</button>");
       media.appendChild(dots);
 
       function slideBy(n) { track.scrollBy({ left: n * track.clientWidth, behavior: "smooth" }); }
+      function slideTo(i) { track.scrollTo({ left: i * track.clientWidth, behavior: "smooth" }); }
       $(".scard__nav--prev", media).addEventListener("click", function () { slideBy(-1); });
       $(".scard__nav--next", media).addEventListener("click", function () { slideBy(1); });
+
+      // Thumbnail strip under the main photo; the last tile opens the full property view.
+      var thumbs = document.createElement("div");
+      thumbs.className = "scard__thumbs";
+      var shown = s.photos.slice(0, 4);
+      shown.forEach(function (pid, i) {
+        var last = i === shown.length - 1;
+        var t = document.createElement("button");
+        t.type = "button";
+        t.className = "scard__thumb" + (i === 0 ? " is-on" : "") + (last ? " scard__thumb--more" : "");
+        t.setAttribute("aria-label", last ? "See all " + s.name + " photos" : "Show photo " + (i + 1));
+        t.appendChild(driveImg(pid, "", 300));
+        if (last) t.insertAdjacentHTML("beforeend", "<span>More</span>");
+        t.addEventListener("click", function () { if (last) openProperty(s.id); else slideTo(i); });
+        thumbs.appendChild(t);
+      });
+
       track.addEventListener("scroll", function () {
         var idx = Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
         $$("span", dots).forEach(function (d, i) { d.classList.toggle("is-on", i === idx); });
+        $$(".scard__thumb", thumbs).forEach(function (t, i) { t.classList.toggle("is-on", i === idx); });
       }, { passive: true });
+
+      var gallery = document.createElement("div");
+      gallery.className = "scard__gallery";
+      gallery.appendChild(media);
+      gallery.appendChild(thumbs);
 
       var amen = s.amenities.slice(0, 4).map(function (a) {
         var x = splitAmenity(a);
-        return '<li title="' + x.label + '"><span aria-hidden="true">' + x.icon + "</span>" + x.label + "</li>";
+        return '<li><span aria-hidden="true">' + x.icon + "</span>" + x.label + "</li>";
       }).join("");
       var more = s.amenities.length - 4;
 
       var body = document.createElement("div");
       body.className = "scard__body";
       body.innerHTML =
-        '<div class="scard__top">' +
-          "<div>" +
-            "<h3>" + s.name + "</h3>" +
-            '<p class="scard__loc">' + ICON.pin + "Vagamon, Kerala · " + s.tagline + "</p>" +
-          "</div>" +
+        '<div class="scard__info">' +
+          "<h3>" + s.name + "</h3>" +
+          '<p class="scard__sub">' + s.tagline + " | " + s.bedrooms + " bedrooms | Up to " + s.adults + " adults</p>" +
+          '<p class="scard__loc">' + ICON.pin + "Vagamon, Kerala · " + kidsText(s) + "</p>" +
+          '<p class="scard__desc">' + s.description + "</p>" +
+          '<ul class="scard__amen">' + amen +
+            (more > 0 ? '<li class="more"><button type="button" data-view="' + s.id + '" aria-label="See all ' + s.amenities.length + ' amenities"><span>+' + more + "</span>More</button></li>" : "") +
+          "</ul>" +
+          '<p class="scard__perk"><span aria-hidden="true">✓</span>Breakfast included</p>' +
         "</div>" +
-        '<p class="scard__desc">' + s.description + "</p>" +
-        '<ul class="scard__facts">' +
-          "<li>" + ICON.bed + s.bedrooms + " bedrooms</li>" +
-          "<li>" + ICON.user + s.adults + " adults</li>" +
-          "<li>" + ICON.kid + kidsText(s) + "</li>" +
-        "</ul>" +
-        '<ul class="scard__amen">' + amen + (more > 0 ? '<li class="more">+' + more + " more</li>" : "") + "</ul>" +
-        '<div class="scard__foot">' +
-          '<div class="scard__price"><span>From</span> <strong>' + inr(D.rates.weekday) + "</strong> <span>/ night</span></div>" +
+        '<div class="scard__side">' +
+          '<span class="scard__badge">' + s.type + "</span>" +
+          '<div class="scard__price"><small>From</small><strong>' + inr(D.rates.weekday) + "</strong>" +
+            "<span>per night · indicative</span></div>" +
           '<div class="scard__cta">' +
-            '<button class="btn btn--line btn--sm" type="button" data-view="' + s.id + '">View details</button>' +
-            '<button class="btn btn--forest btn--sm" type="button" data-book="' + s.id + '">Reserve</button>' +
+            '<button class="btn btn--forest" type="button" data-view="' + s.id + '">Explore</button>' +
+            '<button class="btn btn--line btn--sm" type="button" data-book="' + s.id + '">Reserve</button>' +
           "</div>" +
         "</div>";
 
-      card.appendChild(media);
+      card.appendChild(gallery);
       card.appendChild(body);
       list.appendChild(card);
     });
