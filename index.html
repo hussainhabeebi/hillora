@@ -19,11 +19,11 @@
   <meta property="og:locale" content="en_IN">
   <meta property="og:title" content="Hillora Tales Vagamon | Resort in Vagamon, Kerala">
   <meta property="og:description" content="Pool villas, an A-frame cottage and valley views in the hills of Vagamon, Kerala. Breakfast included. From ₹4,500/night.">
-  <meta property="og:image" content="https://drive.google.com/thumbnail?id=1PPWoFKMxS179_Wu36Q_2FrWf2l__NwrK&sz=w1600">
+  <meta property="og:image" content="https://hilloratales.com/assets/vagamon/vagamon-clouds-meadows.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Hillora Tales Vagamon | Resort in Vagamon, Kerala">
   <meta name="twitter:description" content="Pool villas, an A-frame cottage and valley views in Vagamon, Kerala. Breakfast included.">
-  <meta name="twitter:image" content="https://drive.google.com/thumbnail?id=1PPWoFKMxS179_Wu36Q_2FrWf2l__NwrK&sz=w1600">
+  <meta name="twitter:image" content="https://hilloratales.com/assets/vagamon/vagamon-clouds-meadows.jpg">
   <link rel="canonical" href="https://hilloratales.com/">
   <meta property="og:url" content="https://hilloratales.com/">
   <link rel="icon" href="assets/logo.png">
@@ -163,9 +163,10 @@
       <span>Hillora Tales<small>Vagamon</small></span>
     </a>
     <nav class="nav__links" id="navLinks">
+      <a href="#about">Vagamon</a>
       <a href="#stays">Stays</a>
-      <a href="#experiences">Experiences</a>
-      <a href="#policies">Good to know</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#experiences">Amenities</a>
       <a href="#faq">FAQ</a>
       <a href="#contact">Contact</a>
       <a href="#book" class="btn btn--gold btn--sm">Book your stay</a>
@@ -179,18 +180,31 @@
 
 <main>
   <!-- HERO -->
-  <section class="hero">
-    <div class="hero__bg" id="heroBg"></div>
+  <!-- Scenic slideshow. Client photos live in assets/vagamon/.
+       Portrait shots only show on portrait screens (phones); landscape shots show everywhere. -->
+  <section class="hero" id="hero" aria-label="Vagamon scenery">
+    <div class="hero__slides" id="heroSlides">
+      <img class="hero__slide is-on" src="assets/vagamon/vagamon-clouds-meadows.jpg" alt="Storm clouds over the rocky hills and tea gardens of Vagamon, Kerala" fetchpriority="high" decoding="async">
+      <img class="hero__slide hero__slide--portrait" src="assets/vagamon/vagamon-valley-view.jpg" alt="Clouds drifting over the green valleys of Vagamon seen from a hilltop" decoding="async">
+      <img class="hero__slide" src="assets/vagamon/vagamon-hills-cottage.jpg" alt="Cottage among tea gardens below the granite cliffs of Vagamon" decoding="async">
+      <img class="hero__slide hero__slide--portrait" src="assets/vagamon/vagamon-tea-garden.jpg" alt="Rolling tea garden slopes under misty skies in Vagamon" decoding="async">
+    </div>
     <div class="hero__shade"></div>
     <div class="hero__content">
-      <h1><span class="eyebrow">Resort in Vagamon · Kerala</span>Every hill<br>has a story.<br><em>Come write yours.</em></h1>
-      <p class="hero__lead">Wake up to drifting mist, pine-scented air and valley views that go on forever. Private villas, an A-frame cottage and a pool-deck retreat — made for slow mornings and campfire nights.</p>
+      <p class="eyebrow">Vagamon · Idukki · Kerala</p>
+      <h1>Where the mist<br>meets the meadows.<em>Stay in the hills of Vagamon.</em></h1>
+      <p class="hero__lead">Tea gardens, pine forests and cloud-wrapped cliffs, with a private villa, A-frame cottage or pool-deck stay waiting for you at Hillora Tales.</p>
       <div class="hero__cta">
-        <a href="#book" class="btn btn--gold">Plan your escape</a>
-        <a href="#stays" class="btn btn--ghost">Explore stays</a>
+        <a href="#stays" class="btn btn--gold">Explore Stays</a>
+        <a href="https://wa.me/919846796773?text=Hi%20Hillora%20Tales%20Vagamon!%20%F0%9F%8C%B2%20I%27d%20like%20to%20enquire%20about%20a%20stay." class="btn btn--ghost" target="_blank" rel="noopener">Enquire Now</a>
       </div>
     </div>
+    <div class="hero__dots" id="heroDots" role="tablist" aria-label="Choose photo"></div>
+    <a class="hero__scroll" href="#about" aria-label="Scroll to learn about Vagamon"><span></span></a>
+  </section>
 
+  <!-- QUICK SEARCH -->
+  <div class="wrap searchbar">
     <form class="quick" id="quickForm" aria-label="Quick availability request">
       <label>Check-in<input type="date" name="checkIn" required></label>
       <label>Check-out<input type="date" name="checkOut" required></label>
@@ -198,17 +212,21 @@
       <label>Children<input type="number" name="kids" min="0" value="0"></label>
       <button class="btn btn--forest" type="submit">Check stays</button>
     </form>
-  </section>
+  </div>
 
-  <!-- INTRO -->
-  <section class="intro">
+  <!-- ABOUT VAGAMON -->
+  <section class="intro" id="about">
     <div class="wrap intro__grid">
-      <div>
-        <p class="eyebrow eyebrow--dark">Stories from the Hills</p>
-        <h2>A hideaway for the ones who travel to <em>feel</em>, not just to see.</h2>
+      <div class="intro__media reveal">
+        <img class="intro__img intro__img--main" src="assets/vagamon/vagamon-tea-garden.jpg" alt="Tea garden terraces on the slopes of Vagamon" loading="lazy" decoding="async">
+        <img class="intro__img intro__img--inset" src="assets/vagamon/vagamon-valley-view.jpg" alt="View over the Vagamon valley from a hilltop" loading="lazy" decoding="async">
+        <span class="intro__tag">Western Ghats · Idukki</span>
       </div>
       <div class="intro__text">
-        <p>Hillora Tales is a boutique resort in Vagamon, one of Kerala's best-loved hill stations, in the Idukki district. It sits high in the hills, where tea-green meadows roll into pine forests and the sky changes colour every hour. Swim with the mountains on the horizon, trek to hidden viewpoints by jeep, and end the day around a crackling fire under a sky full of stars.</p>
+        <p class="eyebrow eyebrow--dark">About Vagamon</p>
+        <h2>Kerala's quiet hill country, <em>made for slowing down.</em></h2>
+        <p>High in the Western Ghats, Vagamon is a hill station of rolling meadows, tea gardens, pine forests and granite cliffs. Mornings start in mist, afternoons open up to long valley views, and evenings turn cool enough for a campfire.</p>
+        <p>Hillora Tales sits in the middle of it all. Swim with the mountains on the horizon, take a jeep to hidden viewpoints, and end the day by the fire under a sky full of stars.</p>
         <ul class="stats">
           <li><strong>4</strong><span>Private stays</span></li>
           <li><strong>2 PM</strong><span>Check-in</span></li>
@@ -223,9 +241,9 @@
     <div class="wrap">
       <div class="stays__head">
         <div class="section-head">
-          <p class="eyebrow eyebrow--dark">Where you'll stay</p>
-          <h2>Four stays. Four kinds of quiet.</h2>
-          <p>Every stay is entirely yours. Breakfast and pool access are included.</p>
+          <p class="eyebrow eyebrow--dark">Accommodation in Vagamon</p>
+          <h2>Choose your stay. <em>Four kinds of quiet.</em></h2>
+          <p>Every stay is entirely yours. Breakfast and pool access are included. Tap a stay to see photos, details and an estimate.</p>
         </div>
         <div class="filters" id="stayFilters" role="tablist" aria-label="Filter stays">
           <button class="filter is-active" data-filter="all" role="tab" aria-selected="true">All stays</button>
@@ -238,11 +256,46 @@
     </div>
   </section>
 
-  <!-- EXPERIENCES -->
+  <!-- WHY CHOOSE US -->
+  <section class="why" id="why">
+    <div class="wrap why__grid">
+      <div class="why__media reveal">
+        <img src="assets/vagamon/vagamon-hills-cottage.jpg" alt="Hillside stay among tea gardens beneath the cliffs of Vagamon" loading="lazy" decoding="async">
+      </div>
+      <div>
+        <div class="section-head">
+          <p class="eyebrow eyebrow--dark">Why Hillora Tales</p>
+          <h2>A stay that feels like <em>the hills themselves.</em></h2>
+        </div>
+        <ul class="why__list">
+          <li class="why__item"><span class="why__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 4 15h5l-3 6h12l-3-6h5z"/></svg></span><div><h3>Nature all around</h3><p>Tea gardens, meadows and pine forest start right where the property ends.</p></div></li>
+          <li class="why__item"><span class="why__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m2 19 6-9 4 5 3-4 7 8z"/><circle cx="17" cy="6" r="2"/></svg></span><div><h3>Mountain &amp; valley views</h3><p>Watch the clouds roll over the cliffs from your balcony, the pool or the lawn.</p></div></li>
+          <li class="why__item"><span class="why__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg></span><div><h3>Peaceful &amp; private</h3><p>Every villa, cottage and apartment is booked as a whole. No shared walls with strangers.</p></div></li>
+          <li class="why__item"><span class="why__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span><div><h3>Warm hospitality</h3><p>A friendly team, a fresh breakfast every morning and help planning your days.</p></div></li>
+          <li class="why__item"><span class="why__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><div><h3>Great location</h3><p>Close to the meadows, pine forest and viewpoints. <span class="ph">[Placeholder: add distance from Vagamon town / Kottayam]</span></p></div></li>
+          <li class="why__item"><span class="why__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="16.5" cy="9.5" r="2.5"/><path d="M2.5 20a5.5 5.5 0 0 1 11 0M13 20a4 4 0 0 1 8 0"/></svg></span><div><h3>Families &amp; groups</h3><p>3-bedroom villas, a kids play area and campfire evenings for everyone.</p></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery" id="gallery">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow eyebrow--dark">Scenic highlights</p>
+        <h2>The views you'll wake up to</h2>
+        <p>Photos taken around Hillora Tales and Vagamon. Tap any photo to see it full size.</p>
+      </div>
+      <div class="g-grid" id="sceneGrid"></div>
+    </div>
+  </section>
+
+  <!-- AMENITIES -->
   <section class="experiences" id="experiences">
     <div class="wrap">
       <div class="section-head section-head--light">
-        <p class="eyebrow">Your days here</p>
+        <p class="eyebrow">Amenities &amp; facilities</p>
         <h2>Slow mornings. Wild afternoons. Fireside nights.</h2>
       </div>
       <div class="exp-grid">
@@ -252,6 +305,44 @@
         <article class="exp"><span class="exp__icon">🚙</span><h3>Jeep trekking</h3><p>Off-road trails to Vagamon's meadows, pine forests and viewpoints.</p></article>
         <article class="exp"><span class="exp__icon">🍽️</span><h3>Restaurant</h3><p>Home-style Kerala flavours and comfort food. Dinner is extra unless your package includes it.</p></article>
         <article class="exp"><span class="exp__icon">🛝</span><h3>Kids play area</h3><p>Room for the little ones to run around while you unwind.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS
+       PLACEHOLDER CONTENT: replace the quotes, names and rating below with real guest
+       reviews (e.g. from Google), then remove the "Placeholder" badges and the .ph notes. -->
+  <section class="reviews" id="reviews">
+    <div class="wrap">
+      <div class="reviews__head">
+        <div class="section-head">
+          <p class="eyebrow eyebrow--dark">Guest stories</p>
+          <h2>Tales from our guests</h2>
+        </div>
+        <div class="trust">
+          <strong>★ 4.x</strong>
+          <span>Google rating <span class="ph">[Placeholder: add real rating &amp; review count]</span></span>
+        </div>
+      </div>
+      <div class="tcard-grid">
+        <figure class="tcard">
+          <span class="tcard__ph">Placeholder</span>
+          <div class="tcard__stars" aria-hidden="true">★★★★★</div>
+          <blockquote>[Placeholder guest review] Add a real quote here about the views, the stay or the team.</blockquote>
+          <figcaption><b>Guest name</b><span>City · Stay name</span></figcaption>
+        </figure>
+        <figure class="tcard">
+          <span class="tcard__ph">Placeholder</span>
+          <div class="tcard__stars" aria-hidden="true">★★★★★</div>
+          <blockquote>[Placeholder guest review] Add a real quote here, for example about the pool, breakfast or campfire night.</blockquote>
+          <figcaption><b>Guest name</b><span>City · Stay name</span></figcaption>
+        </figure>
+        <figure class="tcard">
+          <span class="tcard__ph">Placeholder</span>
+          <div class="tcard__stars" aria-hidden="true">★★★★★</div>
+          <blockquote>[Placeholder guest review] Add a real quote here, for example from a family or group trip.</blockquote>
+          <figcaption><b>Guest name</b><span>City · Stay name</span></figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -475,16 +566,22 @@
 
   <!-- CONTACT -->
   <section class="contact" id="contact">
+    <img class="contact__bg" src="assets/vagamon/vagamon-clouds-meadows.jpg" alt="" loading="lazy" decoding="async">
     <div class="wrap contact__inner">
       <div>
-        <p class="eyebrow">Say hello</p>
-        <h2>The hills are calling.<br><em>We'll answer on WhatsApp.</em></h2>
-        <p>Questions about stays, group trips or celebrations? Message us. We usually reply quickly.</p>
+        <p class="eyebrow">Book or enquire</p>
+        <h2>The hills are calling.<br><em>Your Vagamon escape is one message away.</em></h2>
+        <p>Tell us your dates and group size. We'll confirm availability, the best stay for you and the final rate on WhatsApp. We usually reply quickly.</p>
+        <div class="hero__cta">
+          <a href="#book" class="btn btn--gold">Check availability</a>
+          <a href="#stays" class="btn btn--ghost">Browse stays</a>
+        </div>
       </div>
       <div class="contact__card">
-        <a class="btn btn--wa btn--block" href="https://wa.me/919846796773?text=Hi%20Hillora%20Tales%20Vagamon!%20%F0%9F%8C%B2%20I%27d%20like%20to%20know%20more%20about%20your%20stays." target="_blank" rel="noopener">Chat on WhatsApp</a>
+        <a class="btn btn--wa btn--block" href="https://wa.me/919846796773?text=Hi%20Hillora%20Tales%20Vagamon!%20%F0%9F%8C%B2%20I%27d%20like%20to%20enquire%20about%20a%20stay." target="_blank" rel="noopener">Enquire on WhatsApp</a>
         <a class="contact__line" href="tel:+919846796773">📞 +91 98467 96773</a>
         <p class="contact__line">📍 Vagamon, Idukki, Kerala</p>
+        <p class="contact__line contact__line--muted"><span class="ph">[Placeholder: add email, full address and Google Maps link]</span></p>
       </div>
     </div>
   </section>

@@ -100,19 +100,42 @@
 
   /* ---------- Hero ---------- */
 
-  (function heroImage() {
-    var hero = stayById("cleopatra") || D.stays[0];
-    var id = hero.photos[0];
-    var bg = $("#heroBg");
-    var probe = new Image();
-    probe.onload = function () {
-      bg.style.backgroundImage = "url('" + probe.src + "')";
-      bg.classList.add("is-loaded");
-    };
-    probe.onerror = function () {
-      if (!probe.dataset.retried) { probe.dataset.retried = "1"; probe.src = driveFallback(id, 2000); }
-    };
-    probe.src = driveSrc(id, 2000);
+  // Crossfading slideshow. Portrait slides are skipped on landscape screens (CSS hides them).
+  (function heroSlides() {
+    var all = $$("#heroSlides .hero__slide");
+    var dotsBox = $("#heroDots");
+    var portraitMq = window.matchMedia("(orientation: portrait)");
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var slides = [], idx = 0, timer = null;
+
+    function show(i) {
+      idx = (i + slides.length) % slides.length;
+      all.forEach(function (s) { s.classList.toggle("is-on", s === slides[idx]); });
+      $$("button", dotsBox).forEach(function (d, k) {
+        d.classList.toggle("is-on", k === idx);
+        d.setAttribute("aria-selected", String(k === idx));
+      });
+    }
+    function play() {
+      clearInterval(timer);
+      if (!reduced && slides.length > 1) timer = setInterval(function () { show(idx + 1); }, 6000);
+    }
+    function build() {
+      slides = all.filter(function (s) { return portraitMq.matches || !s.classList.contains("hero__slide--portrait"); });
+      dotsBox.innerHTML = slides.map(function (s, k) {
+        return '<button type="button" role="tab" aria-label="Photo ' + (k + 1) + ": " + s.alt + '"></button>';
+      }).join("");
+      $$("button", dotsBox).forEach(function (d, k) {
+        d.addEventListener("click", function () { show(k); play(); });
+      });
+      show(0);
+      play();
+    }
+    if (portraitMq.addEventListener) portraitMq.addEventListener("change", build);
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) clearInterval(timer); else play();
+    });
+    build();
   })();
 
   /* ---------- Lightbox ---------- */
@@ -120,24 +143,29 @@
   var lb = $("#lightbox");
   var lbImg = $("img", lb);
   var lbCap = $(".lightbox__cap", lb);
-  var lbSet = null, lbIdx = 0;
+  var lbItems = [], lbIdx = 0;
 
+  // items: [{ src, fallback?, alt, cap }]
   function showLb() {
-    var s = stayById(lbSet);
-    var id = s.photos[lbIdx];
-    lbImg.onerror = function () { lbImg.onerror = null; lbImg.src = driveFallback(id, 2000); };
-    lbImg.src = driveSrc(id, 2000);
-    lbImg.alt = altFor(s, lbIdx);
-    lbCap.textContent = s.name + " · " + (lbIdx + 1) + " / " + s.photos.length;
+    var it = lbItems[lbIdx];
+    lbImg.onerror = it.fallback ? function () { lbImg.onerror = null; lbImg.src = it.fallback; } : null;
+    lbImg.src = it.src;
+    lbImg.alt = it.alt;
+    lbCap.textContent = it.cap + " · " + (lbIdx + 1) + " / " + lbItems.length;
   }
-  function openLightbox(setId, i) {
-    lbSet = setId; lbIdx = i; showLb();
+  function openLightbox(items, i) {
+    lbItems = items; lbIdx = i; showLb();
     lb.hidden = false;
     document.body.style.overflow = "hidden";
   }
+  function stayLightbox(s) {
+    return s.photos.map(function (id, i) {
+      return { src: driveSrc(id, 2000), fallback: driveFallback(id, 2000), alt: altFor(s, i), cap: s.name };
+    });
+  }
   function closeLb() { lb.hidden = true; document.body.style.overflow = pm.hidden ? "" : "hidden"; }
   function stepLb(n) {
-    var len = stayById(lbSet).photos.length;
+    var len = lbItems.length;
     lbIdx = (lbIdx + n + len) % len; showLb();
   }
   $(".lightbox__close", lb).addEventListener("click", closeLb);
@@ -229,6 +257,7 @@
             '<p class="scard__loc">' + ICON.pin + "Vagamon, Kerala · " + s.tagline + "</p>" +
           "</div>" +
         "</div>" +
+        '<p class="scard__desc">' + s.description + "</p>" +
         '<ul class="scard__facts">' +
           "<li>" + ICON.bed + s.bedrooms + " bedrooms</li>" +
           "<li>" + ICON.user + s.adults + " adults</li>" +
@@ -383,7 +412,7 @@
       $("#pmCount").textContent = (idx + 1) + " / " + s.photos.length;
     }, { passive: true });
     $$("[data-photo]", pmBody).forEach(function (b) {
-      b.addEventListener("click", function () { openLightbox(s.id, +b.getAttribute("data-photo")); });
+      b.addEventListener("click", function () { openLightbox(stayLightbox(s), +b.getAttribute("data-photo")); });
     });
 
     $("#pmJump").addEventListener("click", function () {
@@ -815,8 +844,27 @@
   prepDates(document);
   new MutationObserver(function () { prepDates(document); }).observe(document.body, { childList: true, subtree: true });
 
+  function renderScenery() {
+    var grid = $("#sceneGrid");
+    if (!grid || !D.scenery) return;
+    var items = D.scenery.map(function (p) {
+      return { src: p.src, alt: p.caption + ", Vagamon, Kerala", cap: p.caption };
+    });
+    D.scenery.forEach(function (p, i) {
+      var tile = document.createElement("button");
+      tile.type = "button";
+      tile.className = "g-tile reveal" + (p.shape ? " g-tile--" + p.shape : "");
+      tile.setAttribute("aria-label", "View photo: " + p.caption);
+      tile.innerHTML = '<img src="' + p.src + '" alt="' + escapeHtml(items[i].alt) + '" loading="lazy" decoding="async">' +
+        '<span class="g-tile__cap">' + escapeHtml(p.caption) + "</span>";
+      tile.addEventListener("click", function () { openLightbox(items, i); });
+      grid.appendChild(tile);
+    });
+  }
+
   $("#year").textContent = new Date().getFullYear();
   renderStays();
+  renderScenery();
   var deep = /^#stay-(.+)$/.exec(location.hash);
   if (deep && stayById(deep[1])) openProperty(deep[1]);
 
@@ -842,7 +890,7 @@
         if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); }
       });
     }, { threshold: 0.12 });
-    $$(".reveal, .exp, .policy").forEach(function (el) { el.classList.add("reveal"); io.observe(el); });
+    $$(".reveal, .exp, .policy, .why__item, .tcard").forEach(function (el) { el.classList.add("reveal"); io.observe(el); });
   } else {
     $$(".reveal").forEach(function (el) { el.classList.add("is-in"); });
   }
