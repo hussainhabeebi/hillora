@@ -1,0 +1,7 @@
+# Files in the repo root that must not be published as website assets
+.git
+.assetsignore
+.nojekyll
+wrangler.jsonc
+README.md
+node_modules

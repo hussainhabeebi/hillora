@@ -1,0 +1,10 @@
+// Cloudflare Workers Static Assets: serves this folder as-is (no build step).
+// Production deploys run `npx wrangler deploy` from the `main` branch.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hillora",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./"
+  }
+}

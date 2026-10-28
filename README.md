@@ -26,7 +26,11 @@ Search `index.html` for `Placeholder`. These are **hidden** on the live page (`h
 The estimate uses ₹4,500 for weekday nights and ₹5,200 for Friday and Saturday nights, per unit. It is labelled **indicative**. Holidays, extra-guest charges (₹900/person, to be confirmed), taxes and dinner are not included. The team confirms the final amount on WhatsApp.
 
 ## Hosting
-No build step is needed. Serve the folder with any static host (GitHub Pages, Netlify, Vercel, cPanel). To test locally, run `python3 -m http.server` and open http://localhost:8000.
+Production runs on **Cloudflare Workers Static Assets** (Worker `hillora`). `wrangler.jsonc` serves the repository root as static files, with no build step. `.assetsignore` keeps repo-only files (README, config, `.git`) off the site.
+
+Cloudflare Workers Builds settings: production branch `main`, build command empty, deploy command `npx wrangler deploy`.
+
+To test locally, run `python3 -m http.server` and open http://localhost:8000, or run `npx wrangler dev`.
 
 ## SEO
 - Title, description and Open Graph tags target "resort in Vagamon, Kerala".
