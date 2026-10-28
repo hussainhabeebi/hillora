@@ -184,8 +184,7 @@
        Portrait shots only show on portrait screens (phones); landscape shots show everywhere. -->
   <section class="hero" id="hero" aria-label="Vagamon scenery">
     <div class="hero__slides" id="heroSlides">
-      <img class="hero__slide is-on" src="assets/vagamon/hillora-aerial-overview.jpg" alt="Aerial view of Hillora Tales resort with its pool, surrounded by forest and tea gardens in Vagamon" fetchpriority="high" decoding="async">
-      <img class="hero__slide" src="assets/vagamon/vagamon-clouds-meadows.jpg" alt="Storm clouds over the rocky hills and tea gardens of Vagamon, Kerala" decoding="async">
+      <img class="hero__slide is-on" src="assets/vagamon/vagamon-clouds-meadows.jpg" alt="Storm clouds over the rocky hills and tea gardens of Vagamon, Kerala" fetchpriority="high" decoding="async">
       <img class="hero__slide hero__slide--portrait" src="assets/vagamon/vagamon-valley-view.jpg" alt="Clouds drifting over the green valleys of Vagamon seen from a hilltop" decoding="async">
       <img class="hero__slide" src="assets/vagamon/vagamon-hills-cottage.jpg" alt="Cottage among tea gardens below the granite cliffs of Vagamon" decoding="async">
       <img class="hero__slide hero__slide--portrait" src="assets/vagamon/vagamon-tea-garden.jpg" alt="Rolling tea garden slopes under misty skies in Vagamon" decoding="async">
@@ -283,12 +282,16 @@
   <!-- GALLERY -->
   <section class="gallery" id="gallery">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow eyebrow--dark">Scenic highlights</p>
-        <h2>The views you'll wake up to</h2>
-        <p>Drone footage and photos from around Hillora Tales and Vagamon. Tap any tile to watch or view it full size.</p>
+      <div class="g-head">
+        <div class="section-head section-head--light">
+          <p class="eyebrow">Scenic highlights</p>
+          <h2>The views you'll <em>wake up to</em></h2>
+          <p>Drone films and aerial photos from around Hillora Tales and Vagamon. Tap any tile to watch or view it full size.</p>
+        </div>
+        <ul class="g-meta" id="sceneMeta" aria-label="Gallery contents"></ul>
       </div>
       <div class="g-grid" id="sceneGrid"></div>
+      <p class="g-hint" aria-hidden="true">Swipe for more →</p>
     </div>
   </section>
 
