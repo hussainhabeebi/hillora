@@ -16,6 +16,15 @@ window.HILLORA = {
 
   checkIn: "2:00 PM",
 
+  // Scenic gallery (local files in assets/vagamon/). "wide" tiles span two columns, "tall" span two rows.
+  // To add more photos (e.g. waterfalls, misty mornings), drop them in assets/vagamon/ and add a line here.
+  scenery: [
+    { src: "assets/vagamon/vagamon-clouds-meadows.jpg", shape: "wide", caption: "Clouds over the cliffs and tea gardens" },
+    { src: "assets/vagamon/vagamon-valley-view.jpg", shape: "tall", caption: "The valley from the hilltop" },
+    { src: "assets/vagamon/vagamon-tea-garden.jpg", shape: "tall", caption: "Tea garden slopes" },
+    { src: "assets/vagamon/vagamon-hills-cottage.jpg", shape: "wide", caption: "Life below the granite cliffs" },
+  ],
+
   stays: [
     {
       id: "amrutham",
