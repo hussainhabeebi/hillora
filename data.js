@@ -17,12 +17,14 @@ window.HILLORA = {
   checkIn: "2:00 PM",
 
   // Scenic gallery (local files in assets/vagamon/). "wide" tiles span two columns, "tall" span two rows.
-  // To add more photos (e.g. waterfalls, misty mornings), drop them in assets/vagamon/ and add a line here.
+  // Videos: give "video" (an .mp4 under 25 MB) and "src" (a poster image). They play muted on a loop in the
+  // grid and with controls in the full-screen viewer. Photos: give "src" only.
   scenery: [
-    { src: "assets/vagamon/vagamon-clouds-meadows.jpg", shape: "wide", caption: "Clouds over the cliffs and tea gardens" },
-    { src: "assets/vagamon/vagamon-valley-view.jpg", shape: "tall", caption: "The valley from the hilltop" },
-    { src: "assets/vagamon/vagamon-tea-garden.jpg", shape: "tall", caption: "Tea garden slopes" },
-    { src: "assets/vagamon/vagamon-hills-cottage.jpg", shape: "wide", caption: "Life below the granite cliffs" },
+    { video: "assets/vagamon/video/vagamon-meadows-drone.mp4", src: "assets/vagamon/video/vagamon-meadows-drone.jpg", shape: "tall", caption: "Flying over the Vagamon meadows" },
+    { video: "assets/vagamon/video/hillora-aerial-drone.mp4", src: "assets/vagamon/video/hillora-aerial-drone.jpg", shape: "tall", caption: "Hillora Tales on the hillside" },
+    { video: "assets/vagamon/video/hillora-pool-drone.mp4", src: "assets/vagamon/video/hillora-pool-drone.jpg", shape: "tall", caption: "The pool and play area" },
+    { src: "assets/vagamon/hillora-aerial-overview.jpg", caption: "The resort from above" },
+    { src: "assets/vagamon/hillora-pool-topdown.jpg", caption: "Pool, lawn and play area" },
   ],
 
   stays: [

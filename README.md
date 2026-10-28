@@ -13,7 +13,7 @@ A static, mobile-friendly website for Hillora Tales Vagamon. Guests browse the f
 Hero slideshow → About Vagamon → Accommodation (stay cards) → Why Hillora Tales → Scenic gallery → Amenities → Guest reviews → Booking → Explore Vagamon → Good to know → FAQ → Enquiry CTA.
 
 ## Photos
-- **Scenery** (hero, About, Why, gallery, final CTA) lives in `assets/vagamon/`. The gallery list is `scenery` in `data.js`; add more photos (waterfalls, misty mornings) there. Hero slides are in `index.html`. Slides marked `hero__slide--portrait` only show on portrait screens. Landscape originals of 1920px or wider will look sharper in the hero than the current 1280px files.
+- **Scenery** (hero, About, Why, gallery, final CTA) lives in `assets/vagamon/`, with gallery videos and their poster images in `assets/vagamon/video/`. The gallery list is `scenery` in `data.js`. Add photos or videos there; keep each video under 25 MB, the Cloudflare per-file limit. Hero slides are in `index.html`. Slides marked `hero__slide--portrait` only show on portrait screens. Landscape originals of 1920px or wider will look sharper in the hero than the current 1280px files.
 - **Stay photos** load from Google Drive by file ID. Each file must be shared as **"Anyone with the link can view"**, or it shows a green placeholder.
 
 ## Placeholders to replace
